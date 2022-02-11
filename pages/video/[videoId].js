@@ -1,21 +1,21 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect } from 'react';
 
-import { useRouter } from "next/router";
-import Modal from "react-modal";
-import styles from "../../styles/Video.module.css";
+import { useRouter } from 'next/router';
+import Modal from 'react-modal';
+import clsx from 'classnames';
+import styles from '../../styles/Video.module.css';
 
-import NavBar from "../../components/nav/navbar";
-import clsx from "classnames";
+import NavBar from '../../components/nav/navbar';
 
-import { getYoutubeVideoById } from "../../lib/videos";
+import { getYoutubeVideoById } from '../../lib/videos';
 
-import Like from "../../components/icons/like-icon";
-import DisLike from "../../components/icons/dislike-icon";
+import Like from '../../components/icons/like-icon';
+import DisLike from '../../components/icons/dislike-icon';
 
-Modal.setAppElement("#__next");
+Modal.setAppElement('#__next');
 
 export async function getStaticProps(context) {
-  const videoId = context.params.videoId;
+  const { videoId } = context.params;
   const videoArray = await getYoutubeVideoById(videoId);
 
   return {
@@ -27,17 +27,17 @@ export async function getStaticProps(context) {
 }
 
 export async function getStaticPaths() {
-  const listOfVideos = ["mYfJxlgR2jw", "4zH5iYM4wJo", "KCPEHsAViiQ"];
+  const listOfVideos = ['mYfJxlgR2jw', '4zH5iYM4wJo', 'KCPEHsAViiQ'];
   const paths = listOfVideos.map((videoId) => ({
     params: { videoId },
   }));
 
-  return { paths, fallback: "blocking" };
+  return { paths, fallback: 'blocking' };
 }
 
 const Video = ({ video }) => {
   const router = useRouter();
-  const videoId = router.query.videoId;
+  const { videoId } = router.query;
 
   const [toggleLike, setToggleLike] = useState(false);
   const [toggleDisLike, setToggleDisLike] = useState(false);
@@ -52,12 +52,12 @@ const Video = ({ video }) => {
 
   useEffect(async () => {
     const response = await fetch(`/api/stats?videoId=${videoId}`, {
-      method: "GET",
+      method: 'GET',
     });
     const data = await response.json();
 
     if (data.length > 0) {
-      const favourited = data[0].favourited;
+      const { favourited } = data[0];
       if (favourited === 1) {
         setToggleLike(true);
       } else if (favourited === 0) {
@@ -66,18 +66,17 @@ const Video = ({ video }) => {
     }
   }, []);
 
-  const runRatingService = async (favourited) => {
-    return await fetch("/api/stats", {
-      method: "POST",
+  const runRatingService = async (favourited) =>
+    await fetch('/api/stats', {
+      method: 'POST',
       body: JSON.stringify({
         videoId,
         favourited,
       }),
       headers: {
-        "Content-Type": "application/json",
+        'Content-Type': 'application/json',
       },
     });
-  };
 
   const handleToggleDislike = async () => {
     setToggleDisLike(!toggleDisLike);
@@ -101,7 +100,7 @@ const Video = ({ video }) => {
     <div className={styles.container}>
       <NavBar />
       <Modal
-        isOpen={true}
+        isOpen
         contentLabel="Watch the video"
         onRequestClose={() => router.back()}
         className={styles.modal}
@@ -114,8 +113,8 @@ const Video = ({ video }) => {
           width="100%"
           height="360"
           src={`https://www.youtube.com/embed/${videoId}?autoplay=0&origin=http://example.com&controls=0&rel=1`}
-          frameborder="0"
-        ></iframe>
+          frameBorder="0"
+        />
 
         <div className={styles.likeDislikeBtnWrapper}>
           <div className={styles.likeBtnWrapper}>

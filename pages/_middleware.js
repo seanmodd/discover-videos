@@ -1,4 +1,4 @@
-import { NextResponse } from 'next/server'
+import { NextResponse } from 'next/server';
 import { verifyToken } from '../lib/utils';
 
 export async function middleware(req) {
@@ -7,7 +7,11 @@ export async function middleware(req) {
 
   const { pathname } = req.nextUrl;
 
-  if(pathname.includes('/api/login') || userId || pathname.includes('/static')) {
+  if (
+    pathname.includes('/api/login') ||
+    userId ||
+    pathname.includes('/static')
+  ) {
     return NextResponse.next();
   }
 

@@ -1,26 +1,26 @@
-import Head from "next/head";
-import styles from "../styles/Home.module.css";
+import Head from 'next/head';
+import styles from '../styles/Home.module.css';
 
-import Banner from "../components/banner/banner";
-import NavBar from "../components/nav/navbar";
+import Banner from '../components/banner/banner';
+import NavBar from '../components/nav/navbar';
 
-import SectionCards from "../components/card/section-cards";
+import SectionCards from '../components/card/section-cards';
 
 import {
   getVideos,
   getPopularVideos,
   getWatchItAgainVideos,
-} from "../lib/videos";
-import useRedirectUser from "../utils/redirectUser";
+} from '../lib/videos';
+import useRedirectUser from '../utils/redirectUser';
 
 export async function getServerSideProps(context) {
   const { userId, token } = await useRedirectUser(context);
   const watchItAgainVideos = await getWatchItAgainVideos(userId, token);
 
-  const disneyVideos = await getVideos("disney trailer");
-  const productivityVideos = await getVideos("Productivity");
+  const disneyVideos = await getVideos('disney trailer');
+  const productivityVideos = await getVideos('Productivity');
 
-  const travelVideos = await getVideos("indie music");
+  const travelVideos = await getVideos('indie music');
 
   const popularVideos = await getPopularVideos();
   return {

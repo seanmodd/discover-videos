@@ -3,13 +3,27 @@ import { magicAdmin } from '../../lib/magic';
 import { isNewUser, createNewUser } from '../../lib/db/hasura';
 import { setTokenCookie } from '../../lib/cookies';
 
+// export default async function login(req, res) {
+//   if (req.method === 'POST') {
+//     try {
+//       res.send({ done: true });
+//     } catch (error) {
+//       console.error('Something went wrong with login', error);
+//       res.status(500).send({ done: false });
+//     }
+//   } else {
+//     res.send({ done: false });
+//   }
+// }
 export default async function login(req, res) {
   if (req.method === 'POST') {
     try {
       const auth = req.headers.authorization;
+      console.log('This is auth from serverside!', auth);
       const didToken = auth ? auth.substr(7) : '';
 
       const metadata = await magicAdmin.users.getMetadataByToken(didToken);
+      console.log('This is metadata from serverside!', metadata);
 
       const token = jwt.sign(
         {

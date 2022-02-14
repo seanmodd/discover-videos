@@ -12,7 +12,7 @@ import { setTokenCookie } from '../../lib/cookies';
 //       res.status(500).send({ done: false });
 //     }
 //   } else {
-//     res.send({ done: false });
+// res.send({ done: false });
 //   }
 // }
 export default async function login(req, res) {

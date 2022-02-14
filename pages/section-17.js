@@ -1,3 +1,4 @@
+import { useEffect, useState } from 'react';
 import Head from 'next/head';
 import styles from '../styles/Home.module.css';
 
@@ -7,6 +8,7 @@ import NavBar from '../components/nav/navbar';
 import SectionCards from '../components/card/section-cards';
 
 import { getVideos, getPopularVideos } from '../lib/videos';
+import { startFetchMyQuery } from '../lib/db/hasura';
 
 export async function getServerSideProps(context) {
   const disneyVideos = await getVideos('disney trailer');
@@ -31,6 +33,7 @@ export default function Home({
   productivityVideos,
   popularVideos,
 }) {
+  startFetchMyQuery();
   return (
     <div className={styles.container}>
       <Head>
